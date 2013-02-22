@@ -1,0 +1,3 @@
+ahs_facebook_newscoop_homepage:
+    pattern:  /
+    defaults: { _controller: AHSFacebookNewscoopBundle:Default:index }
