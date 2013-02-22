@@ -16,7 +16,7 @@
         "newscoop/plugins-installer": "*"
     },
     "autoload": {
-        "psr-0": { "AHS\\Bundle\\FacebookNewscoopBundle": "" }
+        "psr-0": { "AHS\\FacebookNewscoopBundle": "" }
     },
-    "target-dir": "AHS/Bundle/FacebookNewscoopBundle"
+    "target-dir": "AHS/FacebookNewscoopBundle"
 }
