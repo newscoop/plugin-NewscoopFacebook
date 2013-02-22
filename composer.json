@@ -18,5 +18,6 @@
     "autoload": {
         "psr-0": { "AHS\\FacebookNewscoopBundle": "" }
     },
-    "target-dir": "AHS/FacebookNewscoopBundle"
+    "target-dir": "AHS/FacebookNewscoopBundle",
+    "minimum-stability": "dev"
 }
