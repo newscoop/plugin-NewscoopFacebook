@@ -1,7 +1,5 @@
-parameters:
-#    ahs_facebook_newscoop.example.class: AHS\FacebookNewscoopBundle\Example
-
 services:
-#    ahs_facebook_newscoop.example:
-#        class: %ahs_facebook_newscoop.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    ahs_facebook_newscoop.updatearticlesubscriber:
+        class: AHS\FacebookNewscoopBundle\EventListener\UpdateArticleSubscriber
+        tags:
+            - { name: kernel.event_subscriber}

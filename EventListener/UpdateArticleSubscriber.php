@@ -18,10 +18,28 @@ class UpdateArticleSubscriber implements EventSubscriberInterface
 {
     public function clearCache(GenericEvent $event)
     {
-        $article = $event->getArgument('article');
+        if ($event->hasArgument('article')) {
+            $article = $event->getArgument('article');
 
-        $browser = new Buzz\Browser();
-        $response = $browser->get('http://www.google.com');
+            if (!$article->isPublished()) {
+                return true;
+            }
+
+            $url = \ShortURL::GetURL(
+                $article->getPublicationId(),
+                $article->getLanguageId(),
+                $article->getIssueNumber(),
+                $article->getSectionNumber(),
+                $article->getArticleNumber()
+            );
+
+            $browser = new \Buzz\Browser(new \Buzz\Client\Curl());
+            $response = $browser->post('http://developers.facebook.com/tools/debug', array(
+                'user_agent' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.A.B.C Safari/525.13'
+            ), http_build_query(array(
+                'q' => $url
+            )));
+        }
     }
 
     public static function getSubscribedEvents()
