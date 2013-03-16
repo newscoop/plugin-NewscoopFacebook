@@ -39,6 +39,7 @@ class UpdateArticleSubscriber implements EventSubscriberInterface
             ), http_build_query(array(
                 'q' => $url
             )));
+            print_r($response);die();
         }
     }
 
@@ -46,8 +47,8 @@ class UpdateArticleSubscriber implements EventSubscriberInterface
     {
         return array(
             'article.update' => array('clearCache', 1),
-            'article.move' => array('update', 1),
-            'article.publish' => array('remove', 1),
+            'article.move' => array('clearCache', 1),
+            'article.publish' => array('clearCache', 1),
         );
     }
 }
