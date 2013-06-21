@@ -14,7 +14,7 @@
     "require": {
         "php": ">=5.3.3",
         "ext-curl": "*",
-        "kriswallsmith/buzz": "v0.9",
+        "kriswallsmith/buzz": ">=v0.9",
         "newscoop/plugins-installer": "*"
     },
     "autoload": {
