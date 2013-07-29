@@ -1,0 +1,40 @@
+<div class="articlebox" title="{{ pluginName }}">
+    <p>
+        <a data-article-number="{{ article.getArticleNumber() }}" data-article-language="{{article.getLanguageId() }}" class="ui-state-default icon-button js-clear-article-facebook-cache" href="#"><span class="ui-icon ui-icon-pencil"></span>{{ getGS('Clear article cache in Facebook') }}</a>
+    </p>
+    <div style="clear:both"></div>
+    <pre class="article-status"></pre>
+    <div class="article-data">
+        <h4>{{ getGS('Article data:') }}</h4>
+        <ul style="padding-left: 0px">
+            <li class="article-data-title">{{ getGS('Title') }}: <span><span></li>
+            <li class="article-data-description">{{ getGS('Description') }}: <span><span></li>
+        </ul>
+    </div>
+</div>
+
+<script>
+$('.js-clear-article-facebook-cache').click(function(e){
+    e.preventDefault(); 
+    $('pre.article-status').html("{{ getGS('Connecting...') }}");
+    var element = $(this);
+    $.ajax({
+        url: "/admin/ahs/facebook-plugin/clear-cache",
+        type: "POST",
+        data: {
+            articleNumber: element.data('articleNumber'),
+            languageId: element.data('articleLanguage')
+        },
+        dataType: "json"
+    }).done(function(res){
+        if (res.status == false) {
+            $('pre.article-status').html(res.message);
+        };
+
+        $('.article-data ul li.article-data-title span').html(res.facebookInfo.title);
+        $('.article-data ul li.article-data-description span').html(res.facebookInfo.description);
+        $('.article-data').show();
+        $('pre.article-status').html("{{ getGS('Success') }}");
+    });
+});
+</script>

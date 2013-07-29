@@ -1,0 +1,4 @@
+ahs_facebook_newscoop:
+    resource: "@AHSFacebookNewscoopBundle/Controller/DefaultController.php"
+    type: annotation
+    prefix: /
