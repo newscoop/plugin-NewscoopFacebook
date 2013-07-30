@@ -20,16 +20,19 @@
 
 <script>
 $(document).ready(function() {
-    ajaxFB();
+    var url1 = '/admin/ahs/facebook-plugin/index/' + $('.js-clear-article-facebook-cache').data('articleNumber');
+    var url2 = "/admin/ahs/facebook-plugin/clear-cache";
+    ajaxFB(url2);
     $('.js-clear-article-facebook-cache').click(function(e){
         e.preventDefault(); 
-        ajaxFB();
+        ajaxFB(url1);
     });
-    function ajaxFB() {
+    function ajaxFB(u) {
         $('pre.article-status').html("{{ getGS('Connecting...') }}");
         var element = $('.js-clear-article-facebook-cache');
+        alert(u);
         $.ajax({
-            url: "/admin/ahs/facebook-plugin/clear-cache",
+            url: u,
             type: "POST",
             data: {
                 articleNumber: element.data('articleNumber'),
@@ -38,13 +41,13 @@ $(document).ready(function() {
             dataType: "json"
         }).done(function(res){
             if (res.status == false) {
-                $('pre.article-status').html(res.message);
+                $('pre.article-status').html('<span style=\"color: #FF2200\">res.message</span>');
             } else {
                 $('#fb-picture').attr('src', res.url);
                 $('.article-data ul li span small').html(res.title);
                 $('#fb-description').html(res.description);
                 $('.article-data').show();
-                $('pre.article-status').html("{{ getGS('Success') }}");
+                $('pre.article-status').html("<span style=\"color: #11B402\">{{ getGS('Success') }}</span>");
             }
         });
     };

@@ -18,25 +18,18 @@ use AHS\FacebookNewscoopBundle\Entity\Facebook;
 class DefaultController extends Controller
 {
     /**
+    * @Route("/admin/ahs/facebook-plugin/index/{article_id}")
     * @Route("/admin/ahs/facebook-plugin/clear-cache")
     */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, $article_id = null)
     {   
-        $create = false;
-        $informations = new Facebook();
-        $em = $this->getDoctrine()->getManager();
-        $informations = $em->getRepository('AHS\FacebookNewscoopBundle\Entity\Facebook')
-            ->findOneBy(array(
-                    'article' => $request->get('articleNumber'),
-                    'language' => $request->get('languageId'),
-                    'is_active' => true,
-            ));
-        if (!$informations) {
-            $create = true;
-        }
-        if ($informations) {
-            $facebookInfo = $this->clearpageCache($request->get('articleNumber'), $request->get('languageId'));
+        
+        $article = $request->get('articleNumber');
+        $language = $request->get('languageId');
 
+        $em = $this->getDoctrine()->getManager();
+        if ($article_id) {
+            $facebookInfo = $this->clearpageCache($article, $language);
             if (is_array($facebookInfo)) {
                 if (array_key_exists('message', $facebookInfo)) {
                     return new Response(json_encode(array(
@@ -45,23 +38,64 @@ class DefaultController extends Controller
                     )));
                 }
             }
-            $informations->setArticle($request->get('articleNumber'));
-            $informations->setLanguage($request->get('languageId'));
-            $informations->setTitle($facebookInfo['title']);
-            $informations->setDescription($facebookInfo['description']);
-            $informations->setUrl($facebookInfo['picture']['data']['url']);
-            if ($create) {
-                $em->persist($informations);
+            $info = $em->getRepository('AHS\FacebookNewscoopBundle\Entity\Facebook')
+                ->findOneBy(array(
+                    'article' => $article_id,
+                    'is_active' => true,
+                ));
+            if ($info->getTitle() != $facebookInfo['title'] || $info->getDescription() != $facebookInfo['description'] || $info->getUrl() != $facebookInfo['picture']['data']['url']) {
+                $info->setTitle($facebookInfo['title']);
+                $info->setDescription($facebookInfo['description']);
+                $info->setUrl($facebookInfo['picture']['data']['url']);
+                $em->flush();
             }
-            $em->flush();
-        }
+            return new Response(json_encode(array(
+                'status' => true, 
+                'title' => $facebookInfo['title'],
+                'description' => $facebookInfo['description'],
+                'url' => $facebookInfo['picture']['data']['url'],
+            )));
+        } else {
+            $informations = $em->getRepository('AHS\FacebookNewscoopBundle\Entity\Facebook')
+                ->findOneBy(array(
+                        'article' => $article,
+                        'language' => $language,
+                        'is_active' => true,
+                ));
+            if (!$informations) {
+                $facebookInfo = $this->clearpageCache($article, $language);
+                if (is_array($facebookInfo)) {
+                    if (array_key_exists('message', $facebookInfo)) {
+                        return new Response(json_encode(array(
+                            'status' => false, 
+                            'message' => $facebookInfo['message']
+                        )));
+                    }
+                }
+                $information = new Facebook();
+                $information->setArticle($article);
+                $information->setLanguage($language);
+                $information->setTitle($facebookInfo['title']);
+                $information->setDescription($facebookInfo['description']);
+                $information->setUrl($facebookInfo['picture']['data']['url']);
+                $em->persist($information);
+                $em->flush();
 
-        return new Response(json_encode(array(
-            'status' => true, 
-            'title' => $informations->getTitle(),
-            'description' => $informations->getDescription(),
-            'url' => $informations->getUrl(),
-        )));
+                return new Response(json_encode(array(
+                    'status' => true, 
+                    'title' => $information->getTitle(),
+                    'description' => $information->getDescription(),
+                    'url' => $information->getUrl(),
+                )));
+            }
+
+            return new Response(json_encode(array(
+                'status' => true, 
+                'title' => $informations->getTitle(),
+                'description' => $informations->getDescription(),
+                'url' => $informations->getUrl(),
+            )));
+        }   
     }
 
     /**
@@ -85,7 +119,7 @@ class DefaultController extends Controller
             $article->getSectionNumber(),
             $article->getArticleNumber()
         );
-        
+
         try {
             $browser = new \Buzz\Browser(new \Buzz\Client\Curl());
             $response =  $browser->post('http://developers.facebook.com/tools/debug', array(
