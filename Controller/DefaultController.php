@@ -34,7 +34,7 @@ class DefaultController extends Controller
 
     /**
      * Send request for refresh cache in Facebook
-     * @param  [int $number
+     * @param  int $number
      * @param  int $languageId
      * @return mixed             response from Facebook about url, or array with error message
      */
