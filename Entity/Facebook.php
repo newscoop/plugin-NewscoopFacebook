@@ -9,7 +9,6 @@
 namespace AHS\FacebookNewscoopBundle\Entity;
 
 use Doctrine\ORM\Mapping AS ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Facebook informations entity
@@ -104,7 +103,7 @@ class Facebook
     {
         $this->article = $article;
         
-        return $article;
+        return $this;
     }
 
     /**
@@ -127,7 +126,7 @@ class Facebook
     {
         $this->language = $language;
         
-        return $language;
+        return $this;
     }
 
     /**
@@ -150,7 +149,7 @@ class Facebook
     {
         $this->title = $title;
         
-        return $title;
+        return $this;
     }
 
     /**
