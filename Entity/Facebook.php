@@ -28,6 +28,18 @@ class Facebook
     private $id;
 
     /**
+     * @ORM\Column(type="integer", name="article", nullable=true)
+     * @var int
+     */
+    private $article;
+
+    /**
+     * @ORM\Column(type="integer", name="language", nullable=true)
+     * @var int
+     */
+    private $language;
+
+    /**
      * @ORM\Column(type="string", name="title", nullable=true)
      * @var string
      */
@@ -38,6 +50,12 @@ class Facebook
      * @var string
      */
     private $description;
+
+    /**
+     * @ORM\Column(type="text", name="url", nullable=true)
+     * @var string
+     */
+    private $url;
 
     /**
      * @ORM\Column(type="datetime", name="created_at")
@@ -64,6 +82,52 @@ class Facebook
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get article id
+     *
+     * @return string
+     */
+    public function getArticle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set article id
+     *
+     * @param integer $article
+     * @return integer
+     */
+    public function setArticle($article)
+    {
+        $this->article = $article;
+        
+        return $article;
+    }
+
+    /**
+     * Get language id
+     *
+     * @return integer
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * Set language id
+     *
+     * @param integer $language
+     * @return integer
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+        
+        return $language;
     }
 
     /**
@@ -108,6 +172,29 @@ class Facebook
     public function setDescription($description)
     {
         $this->description = $description;
+        
+        return $this;
+    }
+
+    /**
+     * Get article url from Facebook
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * Set article url from Facebook
+     *
+     * @param string $url
+     * @return string
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
         
         return $this;
     }

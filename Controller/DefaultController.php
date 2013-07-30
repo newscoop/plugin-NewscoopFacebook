@@ -22,34 +22,46 @@ class DefaultController extends Controller
     */
     public function indexAction(Request $request)
     {   
-        $facebookInfo = $this->clearpageCache($request->get('articleNumber'), $request->get('languageId'));
-
-        $em = $this->getDoctrine()->getManager();
+        //$this->container->get('dispatcher')->dispatch('plugin.install', new \Newscoop\EventDispatcher\Events\GenericEvent($this, array( 'Facebook Plugin' => '' )));
+        $create = false;
         $informations = new Facebook();
-        if (is_array($facebookInfo)) {
-            if (array_key_exists('message', $facebookInfo)) {
-                return new Response(json_encode(array(
-                    'status' => false, 
-                    'message' => $facebookInfo['message']
-                )));
-            }
+        $em = $this->getDoctrine()->getManager();
+        $informations = $em->getRepository('AHS\FacebookNewscoopBundle\Entity\Facebook')
+            ->findOneBy(array(
+                    'article' => $request->get('articleNumber'),
+                    'language' => $request->get('languageId'),
+                    'is_active' => true,
+            ));
+        if (!$informations) {
+            $create = true;
         }
-        $obj = json_decode($facebookInfo);
-        $single = $em->getRepository('AHS\FacebookNewscoopBundle\Entity\Facebook')
-                ->findOneBy(array(
-                    'title' => $obj->title,
-                    'is_active' => true
-                ));
-        if(!$single) {
-            $informations->setTitle($obj->title);
-            $informations->setDescription($obj->title);
-            $em->persist($informations);
+        if ($informations) {
+            $facebookInfo = $this->clearpageCache($request->get('articleNumber'), $request->get('languageId'));
+
+            if (is_array($facebookInfo)) {
+                if (array_key_exists('message', $facebookInfo)) {
+                    return new Response(json_encode(array(
+                        'status' => false, 
+                        'message' => $facebookInfo['message']
+                    )));
+                }
+            }
+            $informations->setArticle($request->get('articleNumber'));
+            $informations->setLanguage($request->get('languageId'));
+            $informations->setTitle($facebookInfo['title']);
+            $informations->setDescription($facebookInfo['description']);
+            $informations->setUrl($facebookInfo['picture']['data']['url']);
+            if ($create) {
+                $em->persist($informations);
+            }
             $em->flush();
         }
-             
+
         return new Response(json_encode(array(
             'status' => true, 
-            'facebookInfo' => json_decode($facebookInfo)
+            'title' => $informations->getTitle(),
+            'description' => $informations->getDescription(),
+            'url' => $informations->getUrl(),
         )));
     }
 
@@ -67,13 +79,15 @@ class DefaultController extends Controller
             return array('message' => getGS('Article is not plublished'));
         }
 
-        $url = \ShortURL::GetURL(
+        /*$url = \ShortURL::GetURL(
             $article->getPublicationId(),
             $article->getLanguageId(),
             $article->getIssueNumber(),
             $article->getSectionNumber(),
             $article->getArticleNumber()
-        );
+        );*/
+        
+        $url = "http://miedzyrzecsiedzieje.pl/pl/miedzyrzec_sie_dzieje/sport/590/Przygotowania-pi%C5%82karzy-do-sezonu-63-z-%C5%81KS-%C5%81azy-ks-mosir-huragan-mi%C4%99dzyrzec-podlaski-%C5%82ks-%C5%82azy-sparing-runda-jesienna-cel-puchar-polski-Jacka-Syryjczyka-Pi%C5%82ka-no%C5%BCna.htm?v=2";
 
         try {
             $browser = new \Buzz\Browser(new \Buzz\Client\Curl());
@@ -96,6 +110,6 @@ class DefaultController extends Controller
              return array('message' => getGS('Connection with facebook failed'));
         }
 
-        return json_encode($info);
+        return $info;
     }
 }
