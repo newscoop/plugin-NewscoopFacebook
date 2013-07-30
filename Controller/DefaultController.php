@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package AHS\FacebookNewscoopBundle
+ * @author Rafał Muszyński <rafal.muszynski@sourcefabric.org>
+ * @copyright 2013 Sourcefabric o.p.s.
+ * @license http://www.gnu.org/licenses/gpl-3.0.txt
+ */
 
 namespace AHS\FacebookNewscoopBundle\Controller;
 
@@ -7,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use AHS\FacebookNewscoopBundle\Entity\Facebook;
 
 class DefaultController extends Controller
 {
@@ -15,28 +22,53 @@ class DefaultController extends Controller
     */
     public function indexAction(Request $request)
     {   
-        $facebookInfo = $this->clearpageCache($request->get('articleNumber'), $request->get('languageId'));
+        $create = false;
+        $informations = new Facebook();
+        $em = $this->getDoctrine()->getManager();
+        $informations = $em->getRepository('AHS\FacebookNewscoopBundle\Entity\Facebook')
+            ->findOneBy(array(
+                    'article' => $request->get('articleNumber'),
+                    'language' => $request->get('languageId'),
+                    'is_active' => true,
+            ));
+        if (!$informations) {
+            $create = true;
+        }
+        if ($informations) {
+            $facebookInfo = $this->clearpageCache($request->get('articleNumber'), $request->get('languageId'));
 
-        if (is_array($facebookInfo)) {
-            if (array_key_exists('message', $facebookInfo)) {
-                return new Response(json_encode(array(
-                    'status' => false, 
-                    'message' => $facebookInfo['message']
-                )));
+            if (is_array($facebookInfo)) {
+                if (array_key_exists('message', $facebookInfo)) {
+                    return new Response(json_encode(array(
+                        'status' => false, 
+                        'message' => $facebookInfo['message']
+                    )));
+                }
             }
+            $informations->setArticle($request->get('articleNumber'));
+            $informations->setLanguage($request->get('languageId'));
+            $informations->setTitle($facebookInfo['title']);
+            $informations->setDescription($facebookInfo['description']);
+            $informations->setUrl($facebookInfo['picture']['data']['url']);
+            if ($create) {
+                $em->persist($informations);
+            }
+            $em->flush();
         }
 
         return new Response(json_encode(array(
             'status' => true, 
-            'facebookInfo' => json_decode($facebookInfo)
+            'title' => $informations->getTitle(),
+            'description' => $informations->getDescription(),
+            'url' => $informations->getUrl(),
         )));
     }
 
     /**
-     * Send request for refresh cache in Facebook
-     * @param  [int $number
+     * Send request to refresh article cache on Facebook
+     * @param  int $number
      * @param  int $languageId
-     * @return mixed             response from Facebook about url, or array with error message
+     * @return mixed response from Facebook about url, or array with error message
      */
     private function clearpageCache($number, $languageId)
     {
@@ -53,7 +85,7 @@ class DefaultController extends Controller
             $article->getSectionNumber(),
             $article->getArticleNumber()
         );
-
+        
         try {
             $browser = new \Buzz\Browser(new \Buzz\Client\Curl());
             $response =  $browser->post('http://developers.facebook.com/tools/debug', array(
@@ -66,10 +98,15 @@ class DefaultController extends Controller
             
             $pageId = str_replace('graph.facebook.com/', '', str_replace('"', '', $matches[0][0]));
             $urlInfo = $browser->get('http://graph.facebook.com/'.$pageId);
+            $urlPicture = $browser->get('http://graph.facebook.com/'.$pageId.'?fields=picture');
+            $info = array_merge_recursive(
+                json_decode($urlInfo->getContent(), true), 
+                json_decode($urlPicture->getContent(), true)
+            );
         } catch(\Buzz\Exception\ClientException $e) {
              return array('message' => getGS('Connection with facebook failed'));
         }
 
-        return $urlInfo->getContent();
+        return $info;
     }
 }
