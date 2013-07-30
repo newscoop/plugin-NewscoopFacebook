@@ -6,9 +6,14 @@
     <pre class="article-status"></pre>
     <div class="article-data">
         <h4>{{ getGS('Article data:') }}</h4>
-        <ul style="padding-left: 0px">
-            <li class="article-data-title">{{ getGS('Title') }}: <span><span></li>
-            <li class="article-data-description">{{ getGS('Description') }}: <span><span></li>
+        <ul class="block-list">
+            <li>
+                <div class="image-thumbnail-container">
+                    <img id="fb-picture" style="width: 90%;">
+                </div>
+                <strong>{{ getGS('Title') }}:</strong> <span><small></small><span><br>
+                <strong>{{ getGS('Description') }}:</strong> <span><small id="fb-description"></small></span><br>
+            </li>
         </ul>
     </div>
 </div>
@@ -31,8 +36,9 @@ $('.js-clear-article-facebook-cache').click(function(e){
             $('pre.article-status').html(res.message);
         };
 
-        $('.article-data ul li.article-data-title span').html(res.facebookInfo.title);
-        $('.article-data ul li.article-data-description span').html(res.facebookInfo.description);
+        $('#fb-picture').attr('src', res.facebookInfo.picture.data.url);
+        $('.article-data ul li span small').html(res.facebookInfo.title);
+        $('#fb-description').html(res.facebookInfo.description);
         $('.article-data').show();
         $('pre.article-status').html("{{ getGS('Success') }}");
     });

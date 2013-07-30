@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package AHS\FacebookNewscoopBundle
+ * @author Rafał Muszyński <rafal.muszynski@sourcefabric.org>
+ * @copyright 2013 Sourcefabric o.p.s.
+ * @license http://www.gnu.org/licenses/gpl-3.0.txt
+ */
 
 namespace AHS\FacebookNewscoopBundle\Controller;
 
@@ -7,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use AHS\FacebookNewscoopBundle\Entity\Facebook;
 
 class DefaultController extends Controller
 {
@@ -17,6 +24,8 @@ class DefaultController extends Controller
     {   
         $facebookInfo = $this->clearpageCache($request->get('articleNumber'), $request->get('languageId'));
 
+        $em = $this->getDoctrine()->getManager();
+        $informations = new Facebook();
         if (is_array($facebookInfo)) {
             if (array_key_exists('message', $facebookInfo)) {
                 return new Response(json_encode(array(
@@ -25,7 +34,19 @@ class DefaultController extends Controller
                 )));
             }
         }
-
+        $obj = json_decode($facebookInfo);
+        $single = $em->getRepository('AHS\FacebookNewscoopBundle\Entity\Facebook')
+                ->findOneBy(array(
+                    'title' => $obj->title,
+                    'is_active' => true
+                ));
+        if(!$single) {
+            $informations->setTitle($obj->title);
+            $informations->setDescription($obj->title);
+            $em->persist($informations);
+            $em->flush();
+        }
+             
         return new Response(json_encode(array(
             'status' => true, 
             'facebookInfo' => json_decode($facebookInfo)
@@ -33,10 +54,10 @@ class DefaultController extends Controller
     }
 
     /**
-     * Send request for refresh cache in Facebook
+     * Send request to refresh article cache on Facebook
      * @param  int $number
      * @param  int $languageId
-     * @return mixed             response from Facebook about url, or array with error message
+     * @return mixed response from Facebook about url, or array with error message
      */
     private function clearpageCache($number, $languageId)
     {
@@ -66,10 +87,15 @@ class DefaultController extends Controller
             
             $pageId = str_replace('graph.facebook.com/', '', str_replace('"', '', $matches[0][0]));
             $urlInfo = $browser->get('http://graph.facebook.com/'.$pageId);
+            $urlPicture = $browser->get('http://graph.facebook.com/'.$pageId.'?fields=picture');
+            $info = array_merge_recursive(
+                json_decode($urlInfo->getContent(), true), 
+                json_decode($urlPicture->getContent(), true)
+            );
         } catch(\Buzz\Exception\ClientException $e) {
              return array('message' => getGS('Connection with facebook failed'));
         }
 
-        return $urlInfo->getContent();
+        return json_encode($info);
     }
 }
