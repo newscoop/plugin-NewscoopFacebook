@@ -22,7 +22,6 @@ class DefaultController extends Controller
     */
     public function indexAction(Request $request)
     {   
-        //$this->container->get('dispatcher')->dispatch('plugin.install', new \Newscoop\EventDispatcher\Events\GenericEvent($this, array( 'Facebook Plugin' => '' )));
         $create = false;
         $informations = new Facebook();
         $em = $this->getDoctrine()->getManager();
@@ -79,16 +78,14 @@ class DefaultController extends Controller
             return array('message' => getGS('Article is not plublished'));
         }
 
-        /*$url = \ShortURL::GetURL(
+        $url = \ShortURL::GetURL(
             $article->getPublicationId(),
             $article->getLanguageId(),
             $article->getIssueNumber(),
             $article->getSectionNumber(),
             $article->getArticleNumber()
-        );*/
+        );
         
-        $url = "http://miedzyrzecsiedzieje.pl/pl/miedzyrzec_sie_dzieje/sport/590/Przygotowania-pi%C5%82karzy-do-sezonu-63-z-%C5%81KS-%C5%81azy-ks-mosir-huragan-mi%C4%99dzyrzec-podlaski-%C5%82ks-%C5%82azy-sparing-runda-jesienna-cel-puchar-polski-Jacka-Syryjczyka-Pi%C5%82ka-no%C5%BCna.htm?v=2";
-
         try {
             $browser = new \Buzz\Browser(new \Buzz\Client\Curl());
             $response =  $browser->post('http://developers.facebook.com/tools/debug', array(

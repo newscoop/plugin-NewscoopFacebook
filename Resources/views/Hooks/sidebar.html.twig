@@ -39,12 +39,13 @@ $(document).ready(function() {
         }).done(function(res){
             if (res.status == false) {
                 $('pre.article-status').html(res.message);
-            };
-            $('#fb-picture').attr('src', res.url);
-            $('.article-data ul li span small').html(res.title);
-            $('#fb-description').html(res.description);
-            $('.article-data').show();
-            $('pre.article-status').html("{{ getGS('Success') }}");
+            } else {
+                $('#fb-picture').attr('src', res.url);
+                $('.article-data ul li span small').html(res.title);
+                $('#fb-description').html(res.description);
+                $('.article-data').show();
+                $('pre.article-status').html("{{ getGS('Success') }}");
+            }
         });
     };
 });
