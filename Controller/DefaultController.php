@@ -1,6 +1,7 @@
 <?php
 /**
  * @package AHS\FacebookNewscoopBundle
+ * @author Paweł Mikołajczuk <pawel.mikolajczuk@sourcefabric.org>
  * @author Rafał Muszyński <rafal.muszynski@sourcefabric.org>
  * @copyright 2013 Sourcefabric o.p.s.
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
@@ -27,13 +28,13 @@ class DefaultController extends Controller
         $language = $request->get('languageId');
         $em = $this->getDoctrine()->getManager();
         $info = $em->getRepository('AHS\FacebookNewscoopBundle\Entity\Facebook')
-                ->findOneBy(array(
-                        'article' => $article,
-                        'language' => $language,
-                        'is_active' => true,
-                ));
+            ->findOneBy(array(
+                    'article' => $article,
+                    'language' => $language,
+                    'is_active' => true,
+            ));
 
-        if ($request->get('_route') === "ahs_facebook_newscoop_default_index") {
+        if ($request->get('_route') === "ahs_facebook_newscoop_default_clear") {
             $facebookInfo = $this->clearpageCache($article, $language);
             if (is_array($facebookInfo)) {
                 if (array_key_exists('message', $facebookInfo)) {
@@ -43,9 +44,14 @@ class DefaultController extends Controller
                     )));
                 }
             }
+
             if (!$info) {
                 $this->insert($em, $article, $language, $facebookInfo['title'], $facebookInfo['description'], $facebookInfo['picture']['data']['url']);
-            } else if ($info->getTitle() != $facebookInfo['title'] || $info->getDescription() != $facebookInfo['description'] || $info->getUrl() != $facebookInfo['picture']['data']['url']) {
+            } else if (
+                $info->getTitle() != $facebookInfo['title'] || 
+                $info->getDescription() != $facebookInfo['description'] || 
+                $info->getUrl() != $facebookInfo['picture']['data']['url']
+            ) {
                 $info->setTitle($facebookInfo['title']);
                 $info->setDescription($facebookInfo['description']);
                 $info->setUrl($facebookInfo['picture']['data']['url']);
@@ -59,7 +65,6 @@ class DefaultController extends Controller
                 'url' => $facebookInfo['picture']['data']['url'],
             )));
         } else {
-
             if (!$info) {
                 $facebookInfo = $this->clearpageCache($article, $language);
                 if (is_array($facebookInfo)) {

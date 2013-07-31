@@ -1,6 +1,8 @@
-{% block admin_stylesheets %}
-<link rel="stylesheet" type="text/css" href="{{ asset('public/bundles/ahsfacebooknewscoop/css/facebook-plugin.css') }}" />
-{% endblock %}
+<style type="text/css" media="screen">
+.article-data h4 {padding-left: 10px;}
+#fb-picture {width: 90%;}
+#status {float: left;padding-left: 10px;}    
+</style>
 
 <div class="articlebox" title="{{ pluginName }}">
     <p>
@@ -24,12 +26,12 @@
 
 <script>
 $(document).ready(function() {
-    var url1 = '{{ path('ahs_facebook_newscoop_default_index') }}';
-    var url2 = '{{ path('ahs_facebook_newscoop_default_clear') }}';
-    ajaxFB(url2);
+    var default_url = '{{ path('ahs_facebook_newscoop_default_index') }}';
+    var clear_url = '{{ path('ahs_facebook_newscoop_default_clear') }}';
+    ajaxFB(default_url);
     $('.js-clear-article-facebook-cache').click(function(e){
         e.preventDefault(); 
-        ajaxFB(url1);
+        ajaxFB(clear_url);
     });
     function ajaxFB(u) {
         $('pre.article-status').html("{{ getGS('Connecting...') }}");
