@@ -36,7 +36,7 @@ Go to an article edition in Newscoop to see Facebook Newscoop Plugin on the righ
 License
 -------
 
-This bundle is under the GNU license. See the complete license in the bundle:
+This bundle is under the GNU General Public License v3. See the complete license in the bundle:
 
     LICENSE.txt
 
