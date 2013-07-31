@@ -1,18 +1,22 @@
+{% block admin_stylesheets %}
+<link rel="stylesheet" type="text/css" href="{{ asset('public/bundles/ahsfacebooknewscoop/css/facebook-plugin.css') }}" />
+{% endblock %}
+
 <div class="articlebox" title="{{ pluginName }}">
     <p>
-        <a data-article-number="{{ article.getArticleNumber() }}" data-article-language="{{article.getLanguageId() }}" class="ui-state-default icon-button js-clear-article-facebook-cache" href="#"><span class="ui-icon ui-icon-pencil"></span>{{ getGS('Clear article cache in Facebook') }}</a>
+        <a data-article-number="{{ article.getArticleNumber() }}" data-article-language="{{article.getLanguageId() }}" class="ui-state-default icon-button js-clear-article-facebook-cache" href="#"><span class="ui-icon ui-icon-pencil"></span>{{ getGS('Clear article cache on Facebook') }}</a>
     </p>
     <div style="clear:both"></div>
-    <pre class="article-status"></pre>
+    <pre id="status"><strong>{{ getGS('Connection status:') }} </strong></pre><pre class="article-status"><strong>Connection status: </strong></pre>
     <div class="article-data">
         <h4>{{ getGS('Article data:') }}</h4>
         <ul class="block-list">
             <li>
                 <div class="image-thumbnail-container">
-                    <img id="fb-picture" style="width: 90%;">
+                    <img id="fb-picture">
                 </div>
-                <strong>{{ getGS('Title') }}:</strong> <span><small></small><span><br>
-                <strong>{{ getGS('Description') }}:</strong> <span><small id="fb-description"></small></span><br>
+                <strong><span><small></small><span></strong><br>
+                <span><small id="fb-description"></small></span><br>
             </li>
         </ul>
     </div>
@@ -20,8 +24,8 @@
 
 <script>
 $(document).ready(function() {
-    var url1 = '/admin/ahs/facebook-plugin/index/' + $('.js-clear-article-facebook-cache').data('articleNumber');
-    var url2 = "/admin/ahs/facebook-plugin/clear-cache";
+    var url1 = '{{ path('ahs_facebook_newscoop_default_index') }}';
+    var url2 = '{{ path('ahs_facebook_newscoop_default_clear') }}';
     ajaxFB(url2);
     $('.js-clear-article-facebook-cache').click(function(e){
         e.preventDefault(); 
@@ -29,8 +33,8 @@ $(document).ready(function() {
     });
     function ajaxFB(u) {
         $('pre.article-status').html("{{ getGS('Connecting...') }}");
+        $('.article-data').hide();
         var element = $('.js-clear-article-facebook-cache');
-        alert(u);
         $.ajax({
             url: u,
             type: "POST",
@@ -41,12 +45,13 @@ $(document).ready(function() {
             dataType: "json"
         }).done(function(res){
             if (res.status == false) {
-                $('pre.article-status').html('<span style=\"color: #FF2200\">res.message</span>');
+                $('pre.article-status').html('<span style=\"color: #FF2200\">'+res.message+'</span>');
+                $('.article-data').hide();
             } else {
+                $('.article-data').show();
                 $('#fb-picture').attr('src', res.url);
                 $('.article-data ul li span small').html(res.title);
                 $('#fb-description').html(res.description);
-                $('.article-data').show();
                 $('pre.article-status').html("<span style=\"color: #11B402\">{{ getGS('Success') }}</span>");
             }
         });
