@@ -56,7 +56,7 @@ Plugin will be installed to your project's `newscoop/plugins/AHS` directory.
 
 
 ### Step 2: That's all!
-Go to an article edition in Newscoop to see Facebook Newscoop Plugin on the right sidebar in action.
+Go to an article edition in Newscoop to see Newscoop Facebook Plugin on the right sidebar in action.
 
 Also read more about [Lifecycle Subscriber Managing](https://wiki.sourcefabric.org/display/NPS/Lifecycle+Subscriber+Managing).
 
