@@ -106,7 +106,7 @@ class DefaultController extends Controller
         $article = new \Article($languageId, $number);
 
         if (!$article->isPublished()) {
-            return array('message' => getGS('Article is not plublished'));
+            return array('message' => $this->get('translator')->trans('fb.label.errornot'));
         }
 
         $url = \ShortURL::GetURL(

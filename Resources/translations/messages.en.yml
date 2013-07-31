@@ -7,3 +7,4 @@ fb:
     connecting: "Connecting..."
     success: "Success."
     error: "Connection to Facebook failed. Try again."
+    errornot: "Article is not published."
