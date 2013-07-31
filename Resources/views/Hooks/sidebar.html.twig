@@ -6,12 +6,12 @@
 
 <div class="articlebox" title="{{ pluginName }}">
     <p>
-        <a data-article-number="{{ article.getArticleNumber() }}" data-article-language="{{article.getLanguageId() }}" class="ui-state-default icon-button js-clear-article-facebook-cache" href="#"><span class="ui-icon ui-icon-pencil"></span>{{ getGS('Clear article cache on Facebook') }}</a>
+        <a data-article-number="{{ article.getArticleNumber() }}" data-article-language="{{article.getLanguageId() }}" class="ui-state-default icon-button js-clear-article-facebook-cache" href="#"><span class="ui-icon ui-icon-pencil"></span>{{ 'fb.btn.clear'|trans }}</a>
     </p>
     <div style="clear:both"></div>
-    <pre id="status"><strong>{{ getGS('Connection status:') }} </strong></pre><pre class="article-status"><strong>Connection status: </strong></pre>
+    <pre id="status"><strong>{{ 'fb.label.status'|trans }} </strong></pre><pre class="article-status"></pre>
     <div class="article-data">
-        <h4>{{ getGS('Article data:') }}</h4>
+        <h4>{{ 'fb.label.data'|trans }}</h4>
         <ul class="block-list">
             <li>
                 <div class="image-thumbnail-container">
@@ -34,7 +34,7 @@ $(document).ready(function() {
         ajaxFB(clear_url);
     });
     function ajaxFB(u) {
-        $('pre.article-status').html("{{ getGS('Connecting...') }}");
+        $('pre.article-status').html("{{ 'fb.label.connecting'|trans }}");
         $('.article-data').hide();
         var element = $('.js-clear-article-facebook-cache');
         $.ajax({
@@ -54,7 +54,7 @@ $(document).ready(function() {
                 $('#fb-picture').attr('src', res.url);
                 $('.article-data ul li span small').html(res.title);
                 $('#fb-description').html(res.description);
-                $('pre.article-status').html("<span style=\"color: #11B402\">{{ getGS('Success') }}</span>");
+                $('pre.article-status').html("<span style=\"color: #11B402\">{{ 'fb.label.success'|trans }}</span>");
             }
         });
     };

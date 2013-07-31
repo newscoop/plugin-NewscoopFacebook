@@ -135,7 +135,7 @@ class DefaultController extends Controller
                 json_decode($urlPicture->getContent(), true)
             );
         } catch(\Buzz\Exception\ClientException $e) {
-             return array('message' => getGS('Connection to Facebook failed. Try again.'));
+             return array('message' => $this->get('translator')->trans('fb.label.error'));
         }
 
         return $info;
