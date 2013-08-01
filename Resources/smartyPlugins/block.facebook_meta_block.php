@@ -47,6 +47,11 @@ function smarty_block_facebook_meta_block($params, $content, &$smarty, &$repeat)
         if (\SystemPref::Get('facebook_appid')) {
             $html .= '<meta property="fb:app_id" content="'.\SystemPref::Get('facebook_appid').'" />'."\n";
         }
+        if (array_key_exists('admins', $params)) {
+            foreach ($params as $key => $value) {
+                $html .= '<meta property="fb:admins" content="'.$value.'" />'."\n";
+            }
+        }
         if ($context->article->keywords) {
             $html .= '<meta property="article:tag" content="'.$context->article->keywords.'" />'."\n";
         }
@@ -66,6 +71,11 @@ function smarty_block_facebook_meta_block($params, $content, &$smarty, &$repeat)
         if (\SystemPref::Get('facebook_appid')) {
             $html .= '<meta property="fb:app_id" content="'.\SystemPref::Get('facebook_appid').'" />'."\n";
         }
+        if (array_key_exists('admins', $params)) {
+            foreach ($params as $key => $value) {
+                $html .= '<meta property="fb:admins" content="'.$value.'" />'."\n";
+            }
+        }
     } else if ($context->issue->defined) {
         $html .= '<meta property="og:title" content="'.$context->issue->name.'" />'."\n";
         $html .= '<meta property="og:type" content="article" />'."\n";
@@ -77,10 +87,20 @@ function smarty_block_facebook_meta_block($params, $content, &$smarty, &$repeat)
         if (\SystemPref::Get('facebook_appid')) {
             $html .= '<meta property="fb:app_id" content="'.\SystemPref::Get('facebook_appid').'" />'."\n";
         }
+        if (array_key_exists('admins', $params)) {
+            foreach ($params as $key => $value) {
+                $html .= '<meta property="fb:admins" content="'.$value.'" />'."\n";
+            }
+        }
     } else {
         $html .= '<meta property="og:site_name" content="'.$context->publication->name.'" />'."\n";
         if (\SystemPref::Get('facebook_appid')) {
             $html .= '<meta property="fb:app_id" content="'.\SystemPref::Get('facebook_appid').'" />'."\n";
+        }
+        if (array_key_exists('admins', $params)) {
+            foreach ($params as $key => $value) {
+                $html .= '<meta property="fb:admins" content="'.$value.'" />'."\n";
+            }
         }
     }
 
