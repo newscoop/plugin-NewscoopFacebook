@@ -80,9 +80,9 @@ class DefaultController extends Controller
 
                 return new Response(json_encode(array(
                     'status' => true, 
-                    'title' => $information->getTitle(),
-                    'description' => $information->getDescription(),
-                    'url' => $information->getUrl(),
+                    'title' => $facebookInfo['title'],
+                    'description' => $facebookInfo['description'],
+                    'url' => $facebookInfo['picture']['data']['url'],
                 )));
             }
 
