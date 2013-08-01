@@ -109,14 +109,13 @@ class DefaultController extends Controller
             return array('message' => $this->get('translator')->trans('fb.label.errornot'));
         }
 
-        /*$url = \ShortURL::GetURL(
+        $url = \ShortURL::GetURL(
             $article->getPublicationId(),
             $article->getLanguageId(),
             $article->getIssueNumber(),
             $article->getSectionNumber(),
             $article->getArticleNumber()
-        );*/
-$url = "http://www.theguardian.com/world/2013/aug/01/edward-snowden-grant-temporary-asylum-russia?guni=Network%20front:network-front%20main-3%20Main%20trailblock:Network%20front%20-%20main%20trailblock:Position1";
+        );
 
         try {
             $browser = new \Buzz\Browser(new \Buzz\Client\Curl());
