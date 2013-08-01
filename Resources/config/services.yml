@@ -1,9 +1,9 @@
 services:
-    ahs_facebook_newscoop.hooks.controller:
-        class: "AHS\FacebookNewscoopBundle\Controller\HooksController"
+    ahs_facebook_newscoop.hooks.listener:
+        class: "AHS\FacebookNewscoopBundle\EventListener\HooksListener"
         arguments: ["@service_container"]
         tags:
-          - { name: kernel.event_listener, event: newscoop_admin.interface.article.edit.sidebar, method: sidebarAction }
+          - { name: kernel.event_listener, event: newscoop_admin.interface.article.edit.sidebar, method: sidebar }
 
     ahs_facebook_newscoop.lifecyclesubscriber:
         class: AHS\FacebookNewscoopBundle\EventListener\LifecycleSubscriber

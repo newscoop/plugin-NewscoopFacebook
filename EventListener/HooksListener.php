@@ -1,11 +1,11 @@
 <?php
 
-namespace AHS\FacebookNewscoopBundle\Controller;
+namespace AHS\FacebookNewscoopBundle\EventListener;
 
 use Symfony\Component\HttpFoundation\Request;
 use Newscoop\EventDispatcher\Events\PluginHooksEvent;
 
-class HooksController
+class HooksListener
 {
     private $container;
 
@@ -14,7 +14,7 @@ class HooksController
         $this->container = $container;
     }
 
-    public function sidebarAction(PluginHooksEvent $event)
+    public function sidebar(PluginHooksEvent $event)
     {
         $response = $this->container->get('templating')->renderResponse(
             'AHSFacebookNewscoopBundle:Hooks:sidebar.html.twig',
