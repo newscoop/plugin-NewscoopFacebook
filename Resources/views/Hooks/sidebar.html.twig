@@ -26,8 +26,8 @@
 
 <script>
 $(document).ready(function() {
-    var default_url = '{{ path('ahs_facebook_newscoop_default_index') }}';
-    var clear_url = '{{ path('ahs_facebook_newscoop_default_clear') }}';
+    var default_url = '{{ path('newscoop_facebook_default_index') }}';
+    var clear_url = '{{ path('newscoop_facebook_default_clear') }}';
     ajaxFB(default_url);
     $('.js-clear-article-facebook-cache').click(function(e){
         e.preventDefault(); 

@@ -1,40 +1,40 @@
 <?php
 /**
- * @package AHS\FacebookNewscoopBundle
+ * @package Newscoop\FacebookNewscoopBundle
  * @author Paweł Mikołajczuk <pawel.mikolajczuk@sourcefabric.org>
  * @author Rafał Muszyński <rafal.muszynski@sourcefabric.org>
  * @copyright 2013 Sourcefabric o.p.s.
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-namespace AHS\FacebookNewscoopBundle\Controller;
+namespace Newscoop\FacebookNewscoopBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use AHS\FacebookNewscoopBundle\Entity\Facebook;
+use Newscoop\FacebookNewscoopBundle\Entity\Facebook;
 
 class DefaultController extends Controller
 {
     /**
-    * @Route("/admin/ahs/facebook-plugin/index", name="ahs_facebook_newscoop_default_index")
-    * @Route("/admin/ahs/facebook-plugin/clear-cache", name="ahs_facebook_newscoop_default_clear")
+    * @Route("/admin/newscoop/facebook-plugin/index", name="newscoop_facebook_default_index")
+    * @Route("/admin/newscoop/facebook-plugin/clear-cache", name="newscoop_facebook_default_clear")
     */
     public function indexAction(Request $request)
     {   
         $article = $request->get('articleNumber');
         $language = $request->get('languageId');
         $em = $this->getDoctrine()->getManager();
-        $info = $em->getRepository('AHS\FacebookNewscoopBundle\Entity\Facebook')
+        $info = $em->getRepository('Newscoop\FacebookNewscoopBundle\Entity\Facebook')
             ->findOneBy(array(
                     'article' => $article,
                     'language' => $language,
                     'is_active' => true,
             ));
 
-        if ($request->get('_route') === "ahs_facebook_newscoop_default_clear") {
+        if ($request->get('_route') === "newscoop_facebook_default_clear") {
             $facebookInfo = $this->clearpageCache($article, $language);
             if (is_array($facebookInfo)) {
                 if (array_key_exists('message', $facebookInfo)) {

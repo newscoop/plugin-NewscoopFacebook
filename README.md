@@ -18,9 +18,9 @@ Installation is a quick process:
 ### Step 1: Installing plugin through our Newscoop Plugin System
 Run the command:
 ``` bash
-$ php application/console plugins:install "ahs/facebook-newscoop-bundle" --env=prod
+$ php application/console plugins:install "newscoop/facebook-newscoop-bundle" --env=prod
 ```
-Plugin will be installed to your project's `newscoop/plugins/AHS` directory.
+Plugin will be installed to your project's `newscoop/plugins/Newscoop` directory.
 
 
 ### Step 2: That's all!
@@ -38,8 +38,3 @@ This bundle is under the GNU General Public License v3. See the complete license
 About
 -------
 FacebookNewscoopBundle is a [Sourcefabric o.p.s](https://github.com/sourcefabric) initiative.
-
-[1]: http://getcomposer.org/doc/00-intro.md
-[packagist]: https://packagist.org/
-[github]: https://github.com/
-[satis]: https://github.com/composer/satis

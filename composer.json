@@ -1,7 +1,7 @@
 {
-    "name": "ahs/facebook-newscoop-bundle",
+    "name": "newscoop/facebook-newscoop-bundle",
     "description": "Usefull sevices for integration Newscoop and Facebook",
-    "keywords": ["newscoop", "facebook", "cms", "integration", "ahs"],
+    "keywords": ["newscoop", "facebook", "cms", "integration"],
     "version": "0.1",
     "type": "newscoop-plugin",
     "license": "GPL-3.0",
@@ -18,8 +18,8 @@
         "newscoop/plugins-installer": "*"
     },
     "autoload": {
-        "psr-0": { "AHS\\FacebookNewscoopBundle": "" }
+        "psr-0": { "Newscoop\\FacebookNewscoopBundle": "" }
     },
-    "target-dir": "AHS/FacebookNewscoopBundle",
+    "target-dir": "Newscoop/FacebookNewscoopBundle",
     "minimum-stability": "dev"
 }
