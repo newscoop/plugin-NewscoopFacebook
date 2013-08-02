@@ -1,12 +1,12 @@
 <?php
 /**
- * @package AHS\FacebookNewscoopBundle
+ * @package Newscoop\FacebookNewscoopBundle
  * @author Rafał Muszyński <rafal.muszynski@sourcefabric.org>
  * @copyright 2013 Sourcefabric o.p.s.
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-namespace AHS\FacebookNewscoopBundle\Entity;
+namespace Newscoop\FacebookNewscoopBundle\Entity;
 
 use Doctrine\ORM\Mapping AS ORM;
 

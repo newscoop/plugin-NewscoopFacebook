@@ -1,12 +1,12 @@
 <?php
 /**
- * @package Newscoop\ExamplePluginBundle
+ * @package Newscoop\FacebookNewscoopBundle
  * @author Paweł Mikołajczuk <pawel.mikolajczuk@sourcefabric.org>
  * @copyright 2012 Sourcefabric o.p.s.
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-namespace AHS\FacebookNewscoopBundle\EventListener;
+namespace Newscoop\FacebookNewscoopBundle\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Newscoop\EventDispatcher\Events\GenericEvent;
@@ -57,7 +57,7 @@ class LifecycleSubscriber implements EventSubscriberInterface
 
     private function getClasses(){
         return array(
-          $this->em->getClassMetadata('AHS\FacebookNewscoopBundle\Entity\Facebook'),
+          $this->em->getClassMetadata('Newscoop\FacebookNewscoopBundle\Entity\Facebook'),
         );
     }
 }
