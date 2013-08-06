@@ -118,7 +118,9 @@ class DefaultController extends Controller
         );
 
         try {
-            $browser = new \Buzz\Browser(new \Buzz\Client\Curl());
+            $curlClient = new \Buzz\Client\Curl();
+            $curlClient->setTimeout(10000);
+            $browser = new \Buzz\Browser($curlClient);
             $response =  $browser->post('http://developers.facebook.com/tools/debug', array(
                 'user_agent' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.A.B.C Safari/525.13'
             ), http_build_query(array(
