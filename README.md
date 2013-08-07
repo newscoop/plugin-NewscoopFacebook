@@ -7,7 +7,7 @@ Facebook caches shared urls for better performance. It can cause some problems a
 
 **Purpose:** Clear an article cache on Facebook and add Open Graph tags.
 
-Installing Newscoop Facebook Plugin Guide
+Installation
 -------------
 Installation is a quick process:
 
