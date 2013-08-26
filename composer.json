@@ -2,20 +2,24 @@
     "name": "newscoop/facebook-newscoop-bundle",
     "description": "Usefull sevices for integration Newscoop and Facebook",
     "keywords": ["newscoop", "facebook", "cms", "integration"],
-    "version": "0.1",
+    "version": "0.2",
     "type": "newscoop-plugin",
     "license": "GPL-3.0",
     "authors": [
         {
             "name": "Pawel Mikolajczuk",
             "email": "mikolajczuk.private@gmail.com"
+        },
+        {
+            "name": "Rafał Muszyński",
+            "email": "rafal.muszynski@sourcefabric.org"
         }
     ],
     "require": {
         "php": ">=5.3.3",
         "ext-curl": "*",
         "kriswallsmith/buzz": ">=v0.9",
-        "newscoop/plugins-installer": "*"
+        "newscoop/plugins-installer": ">=v0.2"
     },
     "autoload": {
         "psr-0": { "Newscoop\\FacebookNewscoopBundle": "" }

@@ -24,10 +24,6 @@ class LifecycleSubscriber implements EventSubscriberInterface
 
     public function install(GenericEvent $event)
     {
-        if ($event->getArgument('plugin_name') != 'newscoop/facebook-newscoop-bundle') {
-            return;
-        }
-
         $tool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
         $tool->updateSchema($this->getClasses(), true);
 
@@ -37,11 +33,6 @@ class LifecycleSubscriber implements EventSubscriberInterface
 
     public function update(GenericEvent $event)
     {
-        if ($event->getArgument('plugin_name') != 'newscoop/facebook-newscoop-bundle') {
-            return;
-        }
-
-
         $tool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
         $tool->updateSchema($this->getClasses(), true);
 
@@ -51,10 +42,6 @@ class LifecycleSubscriber implements EventSubscriberInterface
 
     public function remove(GenericEvent $event)
     {
-        if ($event->getArgument('plugin_name') != 'newscoop/facebook-newscoop-bundle') {
-            return;
-        }
-        
         $tool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
         $tool->dropSchema($this->getClasses(), true);
     }
@@ -62,9 +49,9 @@ class LifecycleSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            'plugin.install' => array('install', 1),
-            'plugin.update' => array('update', 1),
-            'plugin.remove' => array('remove', 1),
+            'plugin.install.newscoop_facebook_plugin' => array('install', 1),
+            'plugin.update.newscoop_facebook_plugin' => array('update', 1),
+            'plugin.remove.newscoop_facebook_plugin' => array('remove', 1),
         );
     }
 
