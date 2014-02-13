@@ -46,15 +46,15 @@ class DefaultController extends Controller
             }
 
             if (!$info) {
-                $this->insert($em, $article, $language, $facebookInfo['title'], $facebookInfo['description'], $facebookInfo['picture']['data']['url']);
+                $this->insert($em, $article, $language, $facebookInfo['title'], $facebookInfo['description'], $facebookInfo['image'][0]['url']);
             } else if (
                 $info->getTitle() != $facebookInfo['title'] || 
                 $info->getDescription() != $facebookInfo['description'] || 
-                $info->getUrl() != $facebookInfo['picture']['data']['url']
+                $info->getUrl() != $facebookInfo['image'][0]['url']
             ) {
                 $info->setTitle($facebookInfo['title']);
                 $info->setDescription($facebookInfo['description']);
-                $info->setUrl($facebookInfo['picture']['data']['url']);
+                $info->setUrl($facebookInfo['image'][0]['url']);
                 $em->flush();
             }
 
@@ -62,7 +62,7 @@ class DefaultController extends Controller
                 'status' => true, 
                 'title' => $facebookInfo['title'],
                 'description' => $facebookInfo['description'],
-                'url' => $facebookInfo['picture']['data']['url'],
+                'url' => $facebookInfo['image'][0]['url'],
             )));
         } else {
             if (!$info) {
@@ -76,13 +76,13 @@ class DefaultController extends Controller
                     }
                 }
 
-                $this->insert($em, $article, $language, $facebookInfo['title'], $facebookInfo['description'], $facebookInfo['picture']['data']['url']);
+                $this->insert($em, $article, $language, $facebookInfo['title'], $facebookInfo['description'], $facebookInfo['image'][0]['url']);
 
                 return new Response(json_encode(array(
                     'status' => true, 
                     'title' => $facebookInfo['title'],
                     'description' => $facebookInfo['description'],
-                    'url' => $facebookInfo['picture']['data']['url'],
+                    'url' => $facebookInfo['image'][0]['url'],
                 )));
             }
 
@@ -92,13 +92,15 @@ class DefaultController extends Controller
                 'description' => $info->getDescription(),
                 'url' => $info->getUrl(),
             )));
-        }   
+        }
     }
 
     /**
      * Send request to refresh article cache on Facebook
-     * @param  int $number
-     * @param  int $languageId
+     *
+     * @param int $number
+     * @param int $languageId
+     *
      * @return mixed response from Facebook about url, or array with error message
      */
     private function clearpageCache($number, $languageId)
@@ -121,36 +123,25 @@ class DefaultController extends Controller
             $curlClient = new \Buzz\Client\Curl();
             $curlClient->setTimeout(10000);
             $browser = new \Buzz\Browser($curlClient);
-            $response =  $browser->post('http://developers.facebook.com/tools/debug', array(
-                'user_agent' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.A.B.C Safari/525.13'
-            ), http_build_query(array(
-                'q' => $url
-            )));
-
-            preg_match_all('/graph.facebook.com\/[0-9]+"/', $response->getContent(), $matches);
-            
-            $pageId = str_replace('graph.facebook.com/', '', str_replace('"', '', $matches[0][0]));
-            $urlInfo = $browser->get('http://graph.facebook.com/'.$pageId);
-            $urlPicture = $browser->get('http://graph.facebook.com/'.$pageId.'?fields=picture');
-            $info = array_merge_recursive(
-                json_decode($urlInfo->getContent(), true), 
-                json_decode($urlPicture->getContent(), true)
-            );
+            $result =  $browser->post('https://graph.facebook.com/?id='.$url.'&scrape=true');
+            $urlInfo = json_decode($result->getContent(), true);
         } catch(\Buzz\Exception\ClientException $e) {
              return array('message' => $this->get('translator')->trans('fb.label.error'));
         }
 
-        return $info;
+        return $urlInfo;
     }
 
     /**
      * Insert article info into database
+     *
      * @param Doctrine\ORM\EntityManager $em
-     * @param  int $article
-     * @param  int $language
-     * @param  string $title
-     * @param  string $description
-     * @param  string $url
+     * @param int                        $articleId
+     * @param int                        $languageId
+     * @param string                     $title
+     * @param string                     $description
+     * @param string                     $url
+     *
      * @return void
      */
     private function insert($em, $articleId, $languageId, $title, $description, $url) {
