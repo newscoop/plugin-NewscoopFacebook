@@ -3,6 +3,7 @@
  * @package Facebook Meta Plugin
  * @author Yorick Terweijden <yorick.terweijden@sourcefabric.org>
  * @author Rafał Muszyński <rafal.muszynski@sourcefabric.org>
+ * @author Paweł Mikołajczuk <pawel.mikolajczuk@sourcefabric.org>
  * @copyright 2013 Sourcefabric o.p.s.
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
@@ -32,20 +33,19 @@ function smarty_block_facebook_meta_block($params, $content, &$smarty, &$repeat)
 
     $smarty->smarty->loadPlugin('smarty_shared_escape_special_chars');
     $context = $smarty->getTemplateVars('gimme');
+    $systemPreferences = \Zend_Registry::get('container')->get('preferences');
 
     $html = '';
     if ($context->article->defined) {
         $html .= '<meta property="og:title" content="'.$context->article->name.'" />'."\n";
         $html .= '<meta property="og:type" content="article" />'."\n";
-        $html .= '<meta property="og:url" content="http:/'.$context->publication->site. smarty_function_uri($params, $smarty) .'" />'."\n";
+        $html .= '<meta property="og:url" content="http://'.$context->publication->site. smarty_function_uri($params, $smarty) .'" />'."\n";
         $html .= '<meta property="og:site_name" content="'.$context->publication->name.'" />'."\n";
-        $html .= '<meta property="og:locale" content="'. $context->article->language->code .'" />'."\n";
         $html .= '<meta property="og:description" content="'.strip_tags($context->article->deck).'" />'."\n";
         $html .= '<meta property="article:section" content="'.$context->section->name.'" />'."\n";
-        $html .= '<meta property="article:author" content="'.$context->article->author->first_name.' '.$context->article->author->last_name.'" />'."\n";
         $html .= '<meta property="article:published_time" content="'.$context->article->publish_date.'" />'."\n";
-        if (\SystemPref::Get('facebook_appid')) {
-            $html .= '<meta property="fb:app_id" content="'.\SystemPref::Get('facebook_appid').'" />'."\n";
+        if ($systemPreferences->get('facebook_appid')) {
+            $html .= '<meta property="fb:app_id" content="'.$systemPreferences->get('facebook_appid').'" />'."\n";
         }
         if (array_key_exists('admins', $params)) {
             foreach ($params as $key => $value) {
@@ -61,15 +61,14 @@ function smarty_block_facebook_meta_block($params, $content, &$smarty, &$repeat)
     } else if ($context->section->defined) {
         $html .= '<meta property="og:title" content="'.$context->section->name.'" />'."\n";
         $html .= '<meta property="og:type" content="article" />'."\n";
-        $html .= '<meta property="og:url" content="http:/'.$context->publication->site. smarty_function_uri($params, $smarty) .'" />'."\n";
+        $html .= '<meta property="og:url" content="http://'.$context->publication->site. smarty_function_uri($params, $smarty) .'" />'."\n";
         $html .= '<meta property="og:site_name" content="'.$context->publication->name.'" />'."\n";
-        $html .= '<meta property="og:locale" content="'. $context->section->language->code .'" />'."\n";
         if ($context->section->description) {
             $html .= '<meta property="og:description" content="'.strip_tags($context->section->description).'" />'."\n";
         }
         $html .= '<meta property="article:section" content="'.$context->section->name.'" />'."\n";
-        if (\SystemPref::Get('facebook_appid')) {
-            $html .= '<meta property="fb:app_id" content="'.\SystemPref::Get('facebook_appid').'" />'."\n";
+        if ($systemPreferences->get('facebook_appid')) {
+            $html .= '<meta property="fb:app_id" content="'.$systemPreferences->get('facebook_appid').'" />'."\n";
         }
         if (array_key_exists('admins', $params)) {
             foreach ($params as $key => $value) {
@@ -81,11 +80,10 @@ function smarty_block_facebook_meta_block($params, $content, &$smarty, &$repeat)
         $html .= '<meta property="og:type" content="article" />'."\n";
         $html .= '<meta property="og:url" content="http:/'.$context->publication->site. smarty_function_uri($params, $smarty) .'" />'."\n";
         $html .= '<meta property="og:site_name" content="'.$context->publication->name.'" />'."\n";
-        $html .= '<meta property="og:locale" content="'. $context->issue->language->code .'" />'."\n";
         $html .= '<meta property="article:section" content="'.$context->issue->name.'" />'."\n";
         $html .= '<meta property="article:published_time" content="'.$context->issue->publish_date.'" />'."\n";
-        if (\SystemPref::Get('facebook_appid')) {
-            $html .= '<meta property="fb:app_id" content="'.\SystemPref::Get('facebook_appid').'" />'."\n";
+        if ($systemPreferences->get('facebook_appid')) {
+            $html .= '<meta property="fb:app_id" content="'.$systemPreferences->get('facebook_appid').'" />'."\n";
         }
         if (array_key_exists('admins', $params)) {
             foreach ($params as $key => $value) {
@@ -94,8 +92,8 @@ function smarty_block_facebook_meta_block($params, $content, &$smarty, &$repeat)
         }
     } else {
         $html .= '<meta property="og:site_name" content="'.$context->publication->name.'" />'."\n";
-        if (\SystemPref::Get('facebook_appid')) {
-            $html .= '<meta property="fb:app_id" content="'.\SystemPref::Get('facebook_appid').'" />'."\n";
+        if ($systemPreferences->get('facebook_appid')) {
+            $html .= '<meta property="fb:app_id" content="'.$systemPreferences->get('facebook_appid').'" />'."\n";
         }
         if (array_key_exists('admins', $params)) {
             foreach ($params as $key => $value) {
