@@ -1,0 +1,10 @@
+fb:
+  btn:
+    clear: Artikelcache auf Facebook bereinigen
+  label:
+    connecting: "Verbinde ..."
+    data: 'Artikeldaten:'
+    error: Verbindung zu Facebook gescheitert. Versuchen Sie es erneut.
+    errornot: Artikel wurde nicht veröffentlicht.
+    status: 'Verbindungsstatus:'
+    success: Erfolgreich.
