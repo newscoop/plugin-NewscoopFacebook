@@ -23,7 +23,7 @@ class DefaultController extends Controller
     * @Route("/admin/newscoop/facebook-plugin/clear-cache", name="newscoop_facebook_default_clear")
     */
     public function indexAction(Request $request)
-    {   
+    {
         $article = $request->get('articleNumber');
         $language = $request->get('languageId');
         $em = $this->getDoctrine()->getManager();
@@ -39,7 +39,7 @@ class DefaultController extends Controller
             if (is_array($facebookInfo)) {
                 if (array_key_exists('message', $facebookInfo)) {
                     return new Response(json_encode(array(
-                        'status' => false, 
+                        'status' => false,
                         'message' => $facebookInfo['message']
                     )));
                 }
@@ -48,8 +48,8 @@ class DefaultController extends Controller
             if (!$info) {
                 $this->insert($em, $article, $language, $facebookInfo['title'], $facebookInfo['description'], $facebookInfo['image'][0]['url']);
             } else if (
-                $info->getTitle() != $facebookInfo['title'] || 
-                $info->getDescription() != $facebookInfo['description'] || 
+                $info->getTitle() != $facebookInfo['title'] ||
+                $info->getDescription() != $facebookInfo['description'] ||
                 $info->getUrl() != $facebookInfo['image'][0]['url']
             ) {
                 $info->setTitle($facebookInfo['title']);
@@ -59,7 +59,7 @@ class DefaultController extends Controller
             }
 
             return new Response(json_encode(array(
-                'status' => true, 
+                'status' => true,
                 'title' => $facebookInfo['title'],
                 'description' => $facebookInfo['description'],
                 'url' => $facebookInfo['image'][0]['url'],
@@ -70,7 +70,7 @@ class DefaultController extends Controller
                 if (is_array($facebookInfo)) {
                     if (array_key_exists('message', $facebookInfo)) {
                         return new Response(json_encode(array(
-                            'status' => false, 
+                            'status' => false,
                             'message' => $facebookInfo['message']
                         )));
                     }
@@ -79,7 +79,7 @@ class DefaultController extends Controller
                 $this->insert($em, $article, $language, $facebookInfo['title'], $facebookInfo['description'], $facebookInfo['image'][0]['url']);
 
                 return new Response(json_encode(array(
-                    'status' => true, 
+                    'status' => true,
                     'title' => $facebookInfo['title'],
                     'description' => $facebookInfo['description'],
                     'url' => $facebookInfo['image'][0]['url'],
@@ -87,7 +87,7 @@ class DefaultController extends Controller
             }
 
             return new Response(json_encode(array(
-                'status' => true, 
+                'status' => true,
                 'title' => $info->getTitle(),
                 'description' => $info->getDescription(),
                 'url' => $info->getUrl(),
@@ -144,7 +144,8 @@ class DefaultController extends Controller
      *
      * @return void
      */
-    private function insert($em, $articleId, $languageId, $title, $description, $url) {
+    private function insert($em, $articleId, $languageId, $title, $description, $url)
+    {
         $information = new Facebook();
         $information->setArticle($articleId);
         $information->setLanguage($languageId);
