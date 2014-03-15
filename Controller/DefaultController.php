@@ -37,11 +37,13 @@ class DefaultController extends Controller
         if ($request->get('_route') === "newscoop_facebook_default_clear") {
             $facebookInfo = $this->clearpageCache($article, $language);
             if (is_array($facebookInfo)) {
-                if (array_key_exists('message', $facebookInfo)) {
-                    return new Response(json_encode(array(
+                if (!array_key_exists('title', $facebookInfo)) {
+                    $response = array(
                         'status' => false,
-                        'message' => $facebookInfo['message']
-                    )));
+                        'message' => $this->get('translator')->trans('fb.label.noarticle')
+                    );
+
+                    return new Response(json_encode($response));
                 }
             }
 
@@ -68,30 +70,34 @@ class DefaultController extends Controller
             if (!$info) {
                 $facebookInfo = $this->clearpageCache($article, $language);
                 if (is_array($facebookInfo)) {
-                    if (array_key_exists('message', $facebookInfo)) {
-                        return new Response(json_encode(array(
+                    if (!array_key_exists('title', $facebookInfo)) {
+                        $response = array(
                             'status' => false,
-                            'message' => $facebookInfo['message']
-                        )));
+                            'message' => $this->get('translator')->trans('fb.label.noarticle')
+                        );
+
+                        return new Response(json_encode($response));
                     }
                 }
 
                 $this->insert($em, $article, $language, $facebookInfo['title'], $facebookInfo['description'], $facebookInfo['image'][0]['url']);
 
-                return new Response(json_encode(array(
+                $response = array(
                     'status' => true,
                     'title' => $facebookInfo['title'],
                     'description' => $facebookInfo['description'],
                     'url' => $facebookInfo['image'][0]['url'],
-                )));
+                );
+            } else {
+                $response = array(
+                    'status' => true,
+                    'title' => $info->getTitle(),
+                    'description' => $info->getDescription(),
+                    'url' => $info->getUrl(),
+                );
             }
 
-            return new Response(json_encode(array(
-                'status' => true,
-                'title' => $info->getTitle(),
-                'description' => $info->getDescription(),
-                'url' => $info->getUrl(),
-            )));
+            return new Response(json_encode($response));
         }
     }
 

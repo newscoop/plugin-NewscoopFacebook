@@ -8,3 +8,4 @@ fb:
     success: "Success."
     error: "Connection to Facebook failed. Try again."
     errornot: "Article is not published."
+    noarticle: "Article not found on Facebook"
