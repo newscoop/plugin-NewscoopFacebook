@@ -1,0 +1,11 @@
+fb:
+    btn:
+        clear: 'Clear article cache on Facebook'
+    label:
+        status: 'Connection status:'
+        data: 'Article data:'
+        connecting: Connecting...
+        success: Success.
+        error: 'Connection to Facebook failed. Try again.'
+        errornot: 'Article is not published.'
+        noarticle: 'Article not found on Facebook'

@@ -1,0 +1,11 @@
+fb:
+    btn:
+        clear: 'Wyczyść bufor artykułu na Facebook-u'
+    label:
+        status: 'Status połączenia:'
+        data: 'Informacje o artykule:'
+        connecting: 'Trwa łączenie...'
+        success: Powodzenie.
+        error: 'Połączenie do Facebook-a nie powiodło się. Spróbuj ponownie.'
+        errornot: 'Artykuł nie został opublikowany.'
+        noarticle: 'Nie znaleziono artykułu na Facebook-u.'
