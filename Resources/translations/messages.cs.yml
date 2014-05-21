@@ -2,10 +2,10 @@ fb:
     btn:
         clear: null
     label:
-        status: null
-        data: null
-        connecting: null
+        status: 'Status připojení:'
+        data: 'Data článku:'
+        connecting: Připojuji...
         success: null
-        error: null
-        errornot: null
-        noarticle: null
+        error: 'Připojení k Facebooku se nezdařilo. Zkuste znovu.'
+        errornot: 'Článek není zveřejněn.'
+        noarticle: 'Článek nebyl nalezen na Facebooku'
