@@ -1,11 +1,11 @@
 fb:
     btn:
-        clear: null
+        clear: 'Slet artikel cache på Facebook'
     label:
-        status: null
-        data: null
-        connecting: null
-        success: null
-        error: null
-        errornot: null
-        noarticle: null
+        status: 'Status for forbindelse:'
+        data: 'Artikel data:'
+        connecting: Forbinder...
+        success: Succes.
+        error: 'Kunne ikke forbinde til Facebook. Prøv igen.'
+        errornot: 'Artiklen er ikke publiceret.'
+        noarticle: 'Artiklen kunne ikke findes på Facebook'
