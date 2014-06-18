@@ -4,8 +4,8 @@ fb:
     label:
         status: 'حالة الإتصال:'
         data: 'بيانات المقال:'
-        connecting: null
-        success: null
-        error: null
-        errornot: null
-        noarticle: null
+        connecting: يوصّل...
+        success: النجاح.
+        error: 'قد فشل التوصيل لفيسبوك. حاول مرة ثانية.'
+        errornot: 'لم يتم نشر المقال.'
+        noarticle: 'لم يتم العثور على المقال في فيسبوك'
