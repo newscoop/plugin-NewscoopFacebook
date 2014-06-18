@@ -1,9 +1,9 @@
 fb:
     btn:
-        clear: null
+        clear: 'أزل خاصية التخزين المؤقت من على الفيسبوك.'
     label:
-        status: null
-        data: null
+        status: 'حالة الإتصال:'
+        data: 'بيانات المقال:'
         connecting: null
         success: null
         error: null
