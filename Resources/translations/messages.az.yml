@@ -1,11 +1,11 @@
 fb:
     btn:
-        clear: null
+        clear: 'Facebook-da məqalə keşini təmizlə'
     label:
-        status: null
-        data: null
-        connecting: null
-        success: null
-        error: null
-        errornot: null
-        noarticle: null
+        status: 'Əlaqə statusu:'
+        data: 'Məqalə məlumatı:'
+        connecting: 'Əlaqə yaradılır...'
+        success: Müvəffəqiyyət.
+        error: 'Facebook-la əlaqə alınmadı. Bir daha sına.'
+        errornot: 'Məqalə dərc edilməyib.'
+        noarticle: 'Məqalə Facebook-da tapılmadı'
