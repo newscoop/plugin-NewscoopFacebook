@@ -1,11 +1,11 @@
 fb:
     btn:
-        clear: null
+        clear: 'Cikkgyorsítótár törlése a Facebookon'
     label:
-        status: null
-        data: null
-        connecting: null
-        success: null
-        error: null
-        errornot: null
-        noarticle: null
+        status: 'Kapcsolat állapota:'
+        data: 'Cikk adatai:'
+        connecting: Csatlakozás...
+        success: Sikerült.
+        error: 'Nem sikerült csatlakozni a Facebookhoz. Próbáld meg újra.'
+        errornot: 'A cikk nincs közzétéve.'
+        noarticle: 'A cikk nem található a Facebookon'
