@@ -6,6 +6,6 @@ fb:
         data: 'Cikk adatai:'
         connecting: Csatlakozás...
         success: Sikerült.
-        error: 'Nem sikerült csatlakozni a Facebookhoz. Próbálja meg újra.'
+        error: 'Nem sikerült csatlakozni a Facebookhoz. Próbáld meg újra.'
         errornot: 'A cikk nincs közzétéve.'
         noarticle: 'A cikk nem található a Facebookon'
