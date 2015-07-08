@@ -5,6 +5,8 @@
 </style>
 
 <div class="articlebox" title="{{ pluginName }}">
+    <p style="padding-left: 10px;font-size: 13px;">
+        {{ 'fb.label.share_url'|trans }} <a style="color:#007fb3;" href="http:{{ url('facebook_plugin_share_url', {'webcode': '+'~article.webcode}, true) }}">http:{{ url('facebook_plugin_share_url', {'webcode': '+'~article.webcode}, true) }}</a>
     <p>
         <a data-article-number="{{ article.getArticleNumber() }}" data-article-language="{{article.getLanguageId() }}" class="ui-state-default icon-button js-clear-article-facebook-cache" href="#"><span class="ui-icon ui-icon-pencil"></span>{{ 'fb.btn.clear'|trans }}</a>
     </p>
