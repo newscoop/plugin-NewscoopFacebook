@@ -117,11 +117,13 @@ If connection to Facebook is a success, the status message on **Screen 1** will 
 To clear the article cache, just click the `Clear article cache on Facebook` button and a message will show up (look at **Screen 2**).
 
 ![Screen 2](http://i42.tinypic.com/2qve24x.png)
+
 **Screen 2:** Connecting message after button click.
 
 If for some reason connection to Facebook isn't possible, we will see an error message (look at **Screen 3**)
 
 ![Screen 3](http://i42.tinypic.com/6tp9nl.png)
+
 **Screen 3:** Connection to Facebook failed - status message.
 
 License
