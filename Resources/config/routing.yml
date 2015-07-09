@@ -1,4 +1,4 @@
 newscoop_facebook_newscoop:
-    resource: "@NewscoopFacebookNewscoopBundle/Controller/DefaultController.php"
+    resource: "@NewscoopFacebookNewscoopBundle/Controller/"
     type: annotation
     prefix: /

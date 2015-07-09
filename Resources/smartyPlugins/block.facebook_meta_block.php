@@ -15,6 +15,9 @@
  * Name:     facebook_meta
  * Purpose:  Generates the Facebook Meta information for a page
  *
+ * example usage: 
+ *     {{ facebook_meta_block admins="123422,234223432,234234234,23423423" }}{{ /facebook_meta_block }}
+ *
  * @param string
  *     $params
  * @param string
@@ -31,7 +34,7 @@ function smarty_block_facebook_meta_block($params, $content, &$smarty, &$repeat)
         return '';
     }
 
-    $smarty->smarty->loadPlugin('smarty_shared_escape_special_chars');
+    $smarty->smarty->loadPlugin('smarty_function_uri');
     $context = $smarty->getTemplateVars('gimme');
     $systemPreferences = \Zend_Registry::get('container')->get('preferences');
 
@@ -43,7 +46,9 @@ function smarty_block_facebook_meta_block($params, $content, &$smarty, &$repeat)
         $html .= '<meta property="og:site_name" content="'.$context->publication->name.'" />'."\n";
         $html .= '<meta property="og:description" content="'.strip_tags($context->article->deck).'" />'."\n";
         $html .= '<meta property="article:section" content="'.$context->section->name.'" />'."\n";
-        $html .= '<meta property="article:published_time" content="'.$context->article->publish_date.'" />'."\n";
+        if ($context->article->is_published) {
+            $html .= '<meta property="article:published_time" content="'.$context->article->publish_date.'" />'."\n";
+        }
         if ($systemPreferences->get('facebook_appid')) {
             $html .= '<meta property="fb:app_id" content="'.$systemPreferences->get('facebook_appid').'" />'."\n";
         }
@@ -81,7 +86,9 @@ function smarty_block_facebook_meta_block($params, $content, &$smarty, &$repeat)
         $html .= '<meta property="og:url" content="http:/'.$context->publication->site. smarty_function_uri($params, $smarty) .'" />'."\n";
         $html .= '<meta property="og:site_name" content="'.$context->publication->name.'" />'."\n";
         $html .= '<meta property="article:section" content="'.$context->issue->name.'" />'."\n";
-        $html .= '<meta property="article:published_time" content="'.$context->issue->publish_date.'" />'."\n";
+        if ($context->issue->is_published) {
+            $html .= '<meta property="article:published_time" content="'.$context->issue->publish_date.'" />'."\n";
+        }
         if ($systemPreferences->get('facebook_appid')) {
             $html .= '<meta property="fb:app_id" content="'.$systemPreferences->get('facebook_appid').'" />'."\n";
         }
