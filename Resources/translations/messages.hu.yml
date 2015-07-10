@@ -3,6 +3,7 @@ fb:
         clear: 'Cikkgyorsítótár törlése a Facebookon'
     label:
         status: 'Kapcsolat állapota:'
+        share_url: null
         data: 'Cikk adatai:'
         connecting: Csatlakozás...
         success: Sikerült.

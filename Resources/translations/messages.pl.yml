@@ -3,6 +3,7 @@ fb:
         clear: 'Wyczyść bufor artykułu na Facebook-u'
     label:
         status: 'Status połączenia:'
+        share_url: null
         data: 'Informacje o artykule:'
         connecting: 'Trwa łączenie...'
         success: Powodzenie.

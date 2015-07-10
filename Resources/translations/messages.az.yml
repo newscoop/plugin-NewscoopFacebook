@@ -3,6 +3,7 @@ fb:
         clear: 'Facebook-da məqalə keşini təmizlə'
     label:
         status: 'Əlaqə statusu:'
+        share_url: null
         data: 'Məqalə məlumatı:'
         connecting: 'Əlaqə yaradılır...'
         success: Müvəffəqiyyət.

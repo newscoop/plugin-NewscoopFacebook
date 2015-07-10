@@ -3,6 +3,7 @@ fb:
         clear: 'Vyčistit cache článku na Facebooku'
     label:
         status: 'Status připojení:'
+        share_url: null
         data: 'Data článku:'
         connecting: Připojuji...
         success: Úspěch.

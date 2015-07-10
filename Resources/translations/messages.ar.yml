@@ -3,6 +3,7 @@ fb:
         clear: 'أزل خاصية التخزين المؤقت من على الفيسبوك.'
     label:
         status: 'حالة الإتصال:'
+        share_url: null
         data: 'بيانات المقال:'
         connecting: يوصّل...
         success: النجاح.

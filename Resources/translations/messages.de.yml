@@ -3,6 +3,7 @@ fb:
         clear: 'Artikelcache auf Facebook bereinigen'
     label:
         status: 'Verbindungsstatus:'
+        share_url: null
         data: 'Artikeldaten:'
         connecting: 'Verbinde ...'
         success: Erfolgreich.

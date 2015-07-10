@@ -3,6 +3,7 @@ fb:
         clear: 'Slet artikel cache på Facebook'
     label:
         status: 'Status for forbindelse:'
+        share_url: null
         data: 'Artikel data:'
         connecting: Forbinder...
         success: Succes.

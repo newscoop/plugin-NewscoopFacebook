@@ -3,6 +3,7 @@ fb:
         clear: null
     label:
         status: null
+        share_url: 'Facebook share url:'
         data: null
         connecting: null
         success: null
