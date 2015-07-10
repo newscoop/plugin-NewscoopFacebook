@@ -3,7 +3,7 @@ fb:
         clear: 'Clear article cache on Facebook'
     label:
         status: 'Connection status:'
-        share_url: null
+        share_url: 'Facebook share URL:'
         data: 'Article data:'
         connecting: Connecting...
         success: Success.
