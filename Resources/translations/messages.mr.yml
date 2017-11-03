@@ -1,0 +1,12 @@
+fb:
+    btn:
+        clear: null
+    label:
+        status: null
+        share_url: null
+        data: null
+        connecting: null
+        success: null
+        error: null
+        errornot: null
+        noarticle: null
